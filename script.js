@@ -1,11 +1,13 @@
 generateHTML();
 
 var
+    quote,
     imgs,
     countLoadImgs,
     countDrawImgs,
     canv;
 
+quote = null;
 imgs = new Array();
 countLoadImgs = 0;
 countDrawImgs = 0;
@@ -18,6 +20,18 @@ canv.width = 600;
 canv.height = 600;
 getImgs();
 drawImgs();
+getQuote();
+
+function getQuote() {
+    var http = new XMLHttpRequest;
+    http.open("GET", "https://cors-anywhere.herokuapp.com/https://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=ru");
+    http.send();
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            quote = JSON.parse(http.responseText)['quoteText'];
+        }
+    }
+}
 
 function getImgs() {
     for (var i = 0; i < 4; i++) {

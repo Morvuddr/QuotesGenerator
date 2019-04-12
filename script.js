@@ -12,19 +12,16 @@ imgs = new Array();
 countLoadImgs = 0;
 countDrawImgs = 0;
 canv = document.getElementById('canvas');
-for (var i = 0; i < 4; i++) {
-    imgs[i] = new Image();
-    imgs[i].crossOrigin = "anonymous";
-}
 canv.width = 600;
 canv.height = 600;
 getImgs();
 drawImgs();
 getQuote();
+drawQuote();
 
 function getQuote() {
     var http = new XMLHttpRequest;
-    http.open("GET", "https://cors-anywhere.herokuapp.com/https://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=ru");
+    http.open("GET", "https://cors-anywhere.herokuapp.com/https://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=ru", true);
     http.send();
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -33,8 +30,49 @@ function getQuote() {
     }
 }
 
+function cutQuote(context, text, x, y, maxWidth, lineHeight) {
+    var
+        words = text.split(" "),
+        countWords = words.length,
+        line = "",
+        countRaws = Math.floor(context.measureText(text).width / 550);
+
+    y -= (countRaws / 2) * lineHeight;
+    for (var n = 0; n < countWords; n++) {
+        var
+            testLine = line + words[n] + " ",
+            testWidth = context.measureText(testLine).width;
+
+        if (testWidth > maxWidth) {
+            context.fillText(line, x, y);
+            line = words[n] + " ";
+            y += lineHeight;
+        }
+        else {
+            line = testLine;
+        }
+    }
+    context.fillText(line, x, y);
+}
+
+function drawQuote() {
+    if (quote != null && countDrawImgs == 4) {
+        var context = canvas.getContext('2d');
+
+        context.fillStyle = 'white';
+        context.font = "italic 22pt Arial";
+        context.textAlign = "center";
+        cutQuote(context, quote, canvas.width / 2, (canvas.height / 2 + 11 ), 550, 40);
+    }
+    else {
+        setTimeout(drawQuote, 1);
+    }
+}
+
 function getImgs() {
     for (var i = 0; i < 4; i++) {
+        imgs[i] = new Image();
+        imgs[i].crossOrigin = "anonymous";
         r = (i + 4) * 100
         imgs[i].src = 'https://source.unsplash.com/' + r + 'x' + r + '/?dog';
         imgs[i].onload = function () {
@@ -54,8 +92,8 @@ function drawImgs() {
         var
             x = 0,
             y = 0,
-            ox = 200 + Math.round(Math.random() + 0.5) * 200,
-            oy = 200 + Math.round(Math.random() + 0.5) * 200,
+            ox = 200 + Math.floor(Math.random() + 0.5) * 200,
+            oy = 200 + Math.floor(Math.random() + 0.5) * 200,
             h = oy,
             par = [];
         for (var i = 0; i < 2; i++) {
@@ -72,7 +110,7 @@ function drawImgs() {
         }
         //Blackout
             var ctx = canvas.getContext('2d');
-            ctx.fillStyle = "rgba(0,0,0,0.35)";
+            ctx.fillStyle = "rgba(0,0,0,0.4)";
             ctx.fillRect(0, 0, 600, 600);
     } else {
         setTimeout(drawImgs, 1);

@@ -62,7 +62,7 @@ function drawQuote() {
         context.fillStyle = 'white';
         context.font = "italic 22pt Arial";
         context.textAlign = "center";
-        cutQuote(context, quote, canvas.width / 2, (canvas.height / 2 + 11 ), 550, 40);
+        cutQuote(context, quote, canvas.width / 2, (canvas.height / 2 + 11), 550, 40);
     }
     else {
         setTimeout(drawQuote, 1);
@@ -106,30 +106,31 @@ function drawImgs() {
             drawImg(imgs[i * 2 + 1], par[0], par[1], par[2], par[3], x, y, w, h);
             x = 0;
             y = oy;
-            h = 600 - h; 
+            h = 600 - h;
         }
         //Blackout
-            var ctx = canvas.getContext('2d');
-            ctx.fillStyle = "rgba(0,0,0,0.4)";
-            ctx.fillRect(0, 0, 600, 600);
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = "rgba(0,0,0,0.4)";
+        ctx.fillRect(0, 0, 600, 600);
     } else {
         setTimeout(drawImgs, 1);
     }
 }
 
-function getParams(img, width, height){
+function getParams(img, width, height) {
     if (width != height)
-      if (width < height)
-        return [img.naturalWidth / 2 - img.naturalWidth / 4, 0, img.naturalWidth / 2, img.naturalHeight]
-      else 
-        return [0, img.naturalHeight / 2 - img.naturalHeight / 4, img.naturalWidth, img.naturalHeight / 2]
+        if (width < height)
+            return [img.naturalWidth / 2 - img.naturalWidth / 4, 0, img.naturalWidth / 2, img.naturalHeight]
+        else
+            return [0, img.naturalHeight / 2 - img.naturalHeight / 4, img.naturalWidth, img.naturalHeight / 2]
     else
-      return [0, 0, img.naturalWidth, img.naturalHeight]
-  }
+        return [0, 0, img.naturalWidth, img.naturalHeight]
+}
 
 function generateHTML() {
     var
         canvas = document.createElement('canvas'),
+        save = document.createElement('button'),
         body = document.getElementById('body'),
         div = document.createElement('div'),
         dbox = document.createElement('div');
@@ -137,13 +138,34 @@ function generateHTML() {
     canvas.id = 'canvas';
 
     div.style.width = '600px';
+    div.style.display = 'flex';
+    div.style.flexDirection = 'column';
+    div.style.alignItems = 'center';
     dbox.style.width = '600px';
     dbox.style.position = 'absolute';
     dbox.style.top = '50%';
     dbox.style.left = '50%';
     dbox.style.margin = '-320px 0 0 -320px';
 
+    save.id = 'save';
+    save.innerHTML = 'Save image';
+    save.style.backgroundColor = 'red';
+    save.style.border = 'none';
+    save.style.color = 'white';
+    save.style.padding = '10px 25px';
+    save.style.fontSize = '20px';
+    save.onclick =
+        function () {
+            var canv = document.getElementById('canvas'),
+                dataURL = canv.toDataURL("image/jpg"),
+                link = document.createElement("a");
+            link.href = dataURL;
+            link.download = "quote.jpg";
+            link.click();
+        };
+
     div.appendChild(canvas);
+    div.appendChild(save);
     dbox.appendChild(div);
     body.appendChild(dbox);
 }

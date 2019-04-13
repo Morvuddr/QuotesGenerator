@@ -102,16 +102,6 @@ function drawImgs() {
     }
 }
 
-function getParams(img, width, height) {
-    if (width != height)
-        if (width < height)
-            return [img.naturalWidth / 2 - img.naturalWidth / 4, 0, img.naturalWidth / 2, img.naturalHeight]
-        else
-            return [0, img.naturalHeight / 2 - img.naturalHeight / 4, img.naturalWidth, img.naturalHeight / 2]
-    else
-        return [0, 0, img.naturalWidth, img.naturalHeight]
-}
-
 function generateHTML() {
     var
         canvas = document.createElement('canvas'),

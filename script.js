@@ -125,12 +125,14 @@ function generateHTML() {
     save.style.fontSize = '20px';
     save.onclick =
         function () {
-            var canv = document.getElementById('canvas'),
-                dataURL = canv.toDataURL("image/jpg"),
-                link = document.createElement("a");
-            link.href = dataURL;
-            link.download = "quote.jpg";
-            link.click();
+            if (countDrawImgs == 4) {
+                var canv = document.getElementById('canvas'),
+                    dataURL = canv.toDataURL("image/jpg"),
+                    link = document.createElement("a");
+                link.href = dataURL;
+                link.download = "quote.jpg";
+                link.click();
+            }
         };
 
     div.appendChild(canvas);

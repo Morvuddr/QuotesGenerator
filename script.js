@@ -4,16 +4,12 @@ var
     quote,
     imgs,
     countLoadImgs,
-    countDrawImgs,
-    canv;
+    countDrawImgs;
 
 quote = null;
 imgs = new Array();
 countLoadImgs = 0;
 countDrawImgs = 0;
-canv = document.getElementById('canvas');
-canv.width = 600;
-canv.height = 600;
 getImgs();
 drawImgs();
 getQuote();
@@ -63,6 +59,7 @@ function drawQuote() {
         context.font = "italic 22pt Arial";
         context.textAlign = "center";
         cutQuote(context, quote, canvas.width / 2, (canvas.height / 2 + 11), 550, 40);
+        save.style.visibility = 'visible';
     }
     else {
         setTimeout(drawQuote, 1);
@@ -106,15 +103,16 @@ function generateHTML() {
     var
         canvas = document.createElement('canvas'),
         save = document.createElement('button'),
-        body = document.getElementById('body'),
-        div = document.createElement('div');
+        body = document.getElementById('body');
 
     canvas.id = 'canvas';
+    canvas.width = 600;
+    canvas.height = 600;
 
-    div.style.width = '100%';
-    div.style.display = 'flex';
-    div.style.flexDirection = 'column';
-    div.style.alignItems = 'center';
+    body.style.width = '100%';
+    body.style.display = 'flex';
+    body.style.flexDirection = 'column';
+    body.style.alignItems = 'center';
 
     save.id = 'save';
     save.innerHTML = 'Save image';
@@ -123,19 +121,17 @@ function generateHTML() {
     save.style.color = 'white';
     save.style.padding = '10px 25px';
     save.style.fontSize = '20px';
+    save.style.visibility = 'hidden';
     save.onclick =
         function () {
-            if (countDrawImgs == 4) {
-                var canv = document.getElementById('canvas'),
-                    dataURL = canv.toDataURL("image/jpg"),
-                    link = document.createElement("a");
-                link.href = dataURL;
-                link.download = "quote.jpg";
-                link.click();
-            }
+            var canv = document.getElementById('canvas'),
+                dataURL = canv.toDataURL("image/jpg"),
+                link = document.createElement("a");
+            link.href = dataURL;
+            link.download = "quote.jpg";
+            link.click();
         };
 
-    div.appendChild(canvas);
-    div.appendChild(save);
-    body.appendChild(div);
+    body.appendChild(canvas);
+    body.appendChild(save);
 }

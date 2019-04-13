@@ -89,25 +89,10 @@ function drawImg(img, sx, sy, swidth, sheight, x, y, width, height) {
 
 function drawImgs() {
     if (countLoadImgs == 4) {
-        var
-            x = 0,
-            y = 0,
-            ox = 200 + Math.floor(Math.random() + 0.5) * 200,
-            oy = 200 + Math.floor(Math.random() + 0.5) * 200,
-            h = oy,
-            par = [];
-        for (var i = 0; i < 2; i++) {
-            w = ox;
-            par = getParams(imgs[i * 2], w, h);
-            drawImg(imgs[i * 2], par[0], par[1], par[2], par[3], x, y, w, h);
-            x = ox;
-            w = 600 - w;
-            par = getParams(imgs[i * 2 + 1], w, h);
-            drawImg(imgs[i * 2 + 1], par[0], par[1], par[2], par[3], x, y, w, h);
-            x = 0;
-            y = oy;
-            h = 600 - h;
-        }
+        drawImg(imgs[0], 0, 0, imgs[0].naturalWidth, imgs[0].naturalHeight, 0, 0, 300, 300);
+        drawImg(imgs[1], 0, 0, imgs[1].naturalWidth, imgs[1].naturalHeight, 300, 0, 300, 300);
+        drawImg(imgs[2], 0, 0, imgs[2].naturalWidth, imgs[2].naturalHeight, 0, 300, 300, 300);
+        drawImg(imgs[3], 0, 0, imgs[3].naturalWidth, imgs[3].naturalHeight, 300, 300, 300, 300);
         //Blackout
         var ctx = canvas.getContext('2d');
         ctx.fillStyle = "rgba(0,0,0,0.4)";
@@ -132,20 +117,14 @@ function generateHTML() {
         canvas = document.createElement('canvas'),
         save = document.createElement('button'),
         body = document.getElementById('body'),
-        div = document.createElement('div'),
-        dbox = document.createElement('div');
+        div = document.createElement('div');
 
     canvas.id = 'canvas';
 
-    div.style.width = '600px';
+    div.style.width = '100%';
     div.style.display = 'flex';
     div.style.flexDirection = 'column';
     div.style.alignItems = 'center';
-    dbox.style.width = '600px';
-    dbox.style.position = 'absolute';
-    dbox.style.top = '50%';
-    dbox.style.left = '50%';
-    dbox.style.margin = '-320px 0 0 -320px';
 
     save.id = 'save';
     save.innerHTML = 'Save image';
@@ -166,6 +145,5 @@ function generateHTML() {
 
     div.appendChild(canvas);
     div.appendChild(save);
-    dbox.appendChild(div);
-    body.appendChild(dbox);
+    body.appendChild(div);
 }

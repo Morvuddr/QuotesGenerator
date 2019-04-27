@@ -1,10 +1,9 @@
 generateHTML();
 
 function generateHTML() {
-    var
-        canvas = document.createElement('canvas'),
-        save = document.createElement('button'),
-        body = document.getElementById('body');
+    var    canvas = document.createElement('canvas');
+    var    save = document.createElement('button');
+    var    body = document.getElementById('body');
 
     canvas.id = 'canvas';
     canvas.width = 600;
@@ -25,9 +24,9 @@ function generateHTML() {
     save.style.visibility = 'hidden';
     save.onclick =
         function () {
-            var canv = document.getElementById('canvas'),
-                dataURL = canv.toDataURL("image/jpg"),
-                link = document.createElement("a");
+            var canv = document.getElementById('canvas');
+            var dataURL = canv.toDataURL("image/jpg");
+            var link = document.createElement("a");
             link.href = dataURL;
             link.download = "quote.jpg";
             link.click();
@@ -102,17 +101,15 @@ function drawQuote() {
 }
 
 function cutQuote(context, text, x, y, maxWidth, lineHeight) {
-    var
-        words = text.split(" "),
-        countWords = words.length,
-        line = "",
-        countRaws = Math.floor(context.measureText(text).width / 550);
+    var words = text.split(" ");
+    var countWords = words.length;
+    var line = "";
+    var countRaws = Math.floor(context.measureText(text).width / 550);
 
     y -= (countRaws / 2) * lineHeight;
     for (var n = 0; n < countWords; n++) {
-        var
-            testLine = line + words[n] + " ",
-            testWidth = context.measureText(testLine).width;
+        var testLine = line + words[n] + " ";
+        var testWidth = context.measureText(testLine).width;
 
         if (testWidth > maxWidth) {
             context.fillText(line, x, y);
